@@ -24,7 +24,8 @@ exec {"Do Update":
 exec {"Install Git": 
 	command => "/usr/bin/sudo /usr/bin/apt-get -y install git", 
 	timeout => 0 
-} -> exec  {"Download Samples": 
+} -> 
+exec  {"Download Samples": 
  	command => "/usr/bin/git clone https://github.com/lawrencetaylor/DockerSamples.git /home/vagrant/DockerSamples", 
  	creates => "/home/vagrant/DockerSamples", 
  	timeout => 0  	
@@ -35,8 +36,8 @@ exec {"Install Docker":
 	timeout => 0 
 } 
 
-exec {"Create Redis Docker File"
-	command => "ruby DockerSamples/tocker.rb -c DockerSamples/DockerFileConfigs/redis_on_ubuntu_14_10.json -t DockerSamples/Redis",
+exec {"Create Redis Docker File 2"
+	command => "sudo ruby DockerSamples/tocker.rb --config DockerSamples/DockerFileConfigs/redis_on_ubuntu_14_10.json --target DockerSamples/Redis --docker-template DockerSamples/Templates/dockerfile.erb",
 	timeout => 0,
 	require => [Exec["Download Samples"], Exec["Install Docker"]]
 }
